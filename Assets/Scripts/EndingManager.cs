@@ -11,6 +11,8 @@ public class EndingManager : MonoBehaviour
     public CinemachineVirtualCamera cockpitCam;
     public CinemachineVirtualCamera wideShotCam;
 
+    public FinalCameraLock finalCameraLock;
+
     public MonoBehaviour cameraSwitcher; // your camera logic script
 
     private PlayableDirector director;
@@ -26,9 +28,8 @@ public class EndingManager : MonoBehaviour
         if (cameraSwitcher != null)
             cameraSwitcher.enabled = false;
 
-        gameplayCam.Priority = 0;
-        cockpitCam.Priority = 0;   // 👈 lower this too
-        wideShotCam.Priority = 30; // 👈 make this highest
+        if (finalCameraLock != null)
+            finalCameraLock.ActivateFinalCamera();
 
         restartButton.SetActive(true);
     }

@@ -23,7 +23,9 @@ public class CinematicSequence : MonoBehaviour
 
     void Update()
     {
-        bool anyInput = Input.anyKey || Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0;
+        bool anyInput = Input.anyKey || Mathf.Abs(Input.GetAxis("Horizontal")) > 0.01f || Mathf.Abs(Input.GetAxis("Vertical")) > 0.01f ||
+        Mathf.Abs(Input.GetAxis("Mouse X")) > 0.01f || Mathf.Abs(Input.GetAxis("Mouse Y")) > 0.01f || Input.GetMouseButton(0) || 
+        Input.GetMouseButton(1) || Input.GetMouseButton(2);
 
         // --- PLAYER CAMERA SWITCHING ---
         if (!isCinematicPlaying && Input.GetKeyDown(KeyCode.C))
@@ -73,7 +75,10 @@ public class CinematicSequence : MonoBehaviour
                     timer += Time.deltaTime;
 
                     // stop cinematic on player input
-                    if (Input.anyKey || Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0 || Input.GetKeyDown(KeyCode.C))
+                    if (Input.anyKey || Mathf.Abs(Input.GetAxis("Horizontal")) > 0.01f ||
+                    Mathf.Abs(Input.GetAxis("Vertical")) > 0.01f || Mathf.Abs(Input.GetAxis("Mouse X")) > 0.01f ||
+                    Mathf.Abs(Input.GetAxis("Mouse Y")) > 0.01f || Input.GetMouseButton(0) ||
+                    Input.GetMouseButton(1) || Input.GetMouseButton(2) || Input.GetKeyDown(KeyCode.C))
                     {
                         DeactivateAllCinematicCameras();
                         isCinematicPlaying = false;
@@ -105,6 +110,7 @@ public class CinematicSequence : MonoBehaviour
     void DeactivateAllCinematicCameras()
     {
         foreach (var cam in cinematicCameras) cam.Priority = 0;
+        ActivatePlayerCamera(currentPlayerCamIndex);
     }
 
     // --- PUBLIC METHODS FOR UI ---
